@@ -148,6 +148,28 @@ public class QueueC {
             q.add(q.remove());
         }
 
+    }// Interleaving 2 halfs
+
+    // Queue Reversal
+    public static void queueReversal(Queue<Integer> q) {
+        Stack<Integer> s = new Stack<>();
+        if (q.isEmpty()) {
+            System.out.println("Queue is empty");
+            return;
+        }
+        while (!q.isEmpty()) {
+
+            s.push(q.remove());
+        }
+        while (!s.isEmpty()) {
+            q.add(s.pop());
+        }
+
+        while (!q.isEmpty()) {
+            System.out.print(q.remove() + " ");
+
+        }
+        System.out.println();
     }
 
     public static void main(String args[]) {
@@ -183,12 +205,12 @@ public class QueueC {
         q.add(8);
         q.add(9);
         q.add(10);
-        interLeave(q);
-        while (!q.isEmpty()) {
-            System.out.print(q.remove() + " ");
-        }
-        System.out.println();
-
+        // interLeave(q);
+        // while (!q.isEmpty()) {
+        // System.out.print(q.remove() + " ");
+        // }
+        // System.out.println();
+        queueReversal(q);
     }
 
 }
