@@ -251,6 +251,25 @@ public class BinaryTreeA {
         return dist1 + dist2;
     }
 
+    public static int kthAncestor(Node root, int n, int k) {
+        if (root == null) {
+            return -1;
+        }
+        if (root.data == n) {
+            return 0;
+        }
+        int leftDist = kthAncestor(root.left, n, k);
+        int rightDist = kthAncestor(root.right, n, k);
+        if (leftDist == -1 && rightDist == -1) {
+            return -1;
+        }
+        int max = Math.max(leftDist, rightDist);
+        if (max + 1 == k) {
+            System.out.println(root.data);
+        }
+        return max + 1;
+    }
+
     public static void main(String[] args) {
         /*
          * 1
@@ -282,8 +301,10 @@ public class BinaryTreeA {
         // topView(root);
         // k=2
         // klevel(root,1,k);
-        int n1 = 4, n2 = 5;
-        System.out.println(minDistanceBtwNodes(root, n1, n2));
+        // int n1 = 4, n2 = 5;
+        // System.out.println(minDistanceBtwNodes(root, n1, n2));
+        int n = 4, k = 2;
+        kthAncestor(root, n, k);
 
     }
 }
