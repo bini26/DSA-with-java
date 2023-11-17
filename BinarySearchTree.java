@@ -24,6 +24,20 @@ public class BinarySearchTree {
         return root;
     }
 
+    public static boolean search(Node root, int key) {
+        if (root == null) {
+            return false;
+        }
+        if (root.data == key) {
+            return true;
+
+        } else if (root.data > key) {
+            return search(root.left, key);
+        } else {
+            return search(root.right, key);
+        }
+    }
+
     public static void inorder(Node root) {
         if (root == null) {
             return;
@@ -41,6 +55,8 @@ public class BinarySearchTree {
         }
         inorder(root);
         System.out.println();
+        System.out.println(search(root, 8));
+
     }
 
 }
