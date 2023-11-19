@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class BinarySearchTree {
     static class Node {
         int data;
@@ -86,6 +88,48 @@ public class BinarySearchTree {
         }
     }
 
+    public static void printRoot2Leaf(Node root, ArrayList<Integer> path) {
+        if (root == null) {
+            return;
+        }
+        path.add(root.data);
+        if (root.left == null && root.right == null) {
+            for (int i = 0; i < path.size(); i++) {
+                System.out.print(path.get(i) + "  ");
+            }
+            System.out.println();
+        }
+        printRoot2Leaf(root.left, path);
+        printRoot2Leaf(root.right, path);
+        path.remove(path.size() - 1);
+
+    }
+
+    public static boolean isValidBST(Node root, Node min, Node max) {
+        if (root == null) {
+            return true;
+        }
+        if (min != null && root.data <= min.data) {
+            return false;
+        } else if (max != null && root.data >= max.data) {
+            return false;
+        }
+
+        return isValidBST(root.left, min, root) && isValidBST(root.right, root, max);
+
+    }
+
+    public static Node mirror(Node root) {
+        if (root == null) {
+            return null;
+        }
+        Node leftSubTree = mirror(root.left);
+        Node rightSubTree = mirror(root.right);
+        root.left = rightSubTree;
+        root.right = leftSubTree;
+        return root;
+    }
+
     public static void inorder(Node root) {
         if (root == null) {
             return;
@@ -107,7 +151,11 @@ public class BinarySearchTree {
         // delete(root, 5);
         // System.out.println();
         // inorder(root);
-        printInRange(root, 5, 12);
+        // printInRange(root, 5, 12);
+        // printRoot2Leaf(root, new ArrayList<>());
+        // System.out.println(isValidBST(root, null, null));
+        mirror(root);
+        inorder(root);
 
     }
 
