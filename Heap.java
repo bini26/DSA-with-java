@@ -64,16 +64,56 @@ public class Heap {
         }
     }
 
-    public static void main(String[] args) {
-        DemoHeap h = new DemoHeap();
-        h.add(3);
-        h.add(4);
-        h.add(1);
-        h.add(6);
-        while (!h.isEmpty()) {
-            System.out.print(h.peek() + "  ");
-            h.remove();
+    public static void heapifyy(int arr[], int i, int n) {
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        int maxIdx = i;
+        if (left < n && arr[left] > arr[maxIdx]) {
+            maxIdx = left;
         }
+        if (right < n && arr[right] > arr[maxIdx]) {
+            maxIdx = right;
+        }
+        if (maxIdx != i) {
+            int temp = arr[i];
+            arr[i] = arr[maxIdx];
+            arr[maxIdx] = temp;
+
+        }
+    }
+
+    public static void heapSort(int arr[]) {
+        int n = arr.length;
+        for (int i = n / 2; i >= 0; i--) {
+            heapifyy(arr, i, n);
+        }
+        for (int i = n - 1; i > 0; i--) {
+            // swap
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+
+            heapifyy(arr, 0, i);
+        }
+    }
+
+    public static void main(String[] args) {
+        // DemoHeap h = new DemoHeap();
+        // h.add(3);
+        // h.add(4);
+        // h.add(1);
+        // h.add(6);
+        // while (!h.isEmpty()) {
+        // System.out.print(h.peek() + " ");
+        // h.remove();
+        // }
+        int arr[] = { 1, 3, 4, 2, 5 };
+        heapSort(arr);
+        // print
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + "   ");
+        }
+        System.out.println();
 
     }
 
