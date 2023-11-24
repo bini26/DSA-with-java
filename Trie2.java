@@ -44,6 +44,18 @@ public class Trie2 {
         }
     }
 
+    public static boolean startsWith(String key) {
+        Node curr = root;
+        for (int i = 0; i < key.length(); i++) {
+            int idx = key.charAt(i) - 'a';
+            if (curr.children[idx] == null) {
+                return false;
+            }
+            curr = curr.children[idx];
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         String arr[] = { "zebra", "dog", "duck", "dove" };
         for (int i = 0; i < arr.length; i++) {
@@ -51,7 +63,14 @@ public class Trie2 {
         }
         root.freq = -1;
         findPrefix(root, "");
-
+        String word[] = { "apple", "app", "mango", "man", "women" };
+        String prefix = "app";
+        String prefix2 = "moon";
+        for (int i = 0; i < word.length; i++) {
+            insert(word[i]);
+        }
+        System.out.println(startsWith(prefix));
+        System.out.println(startsWith(prefix2));
     }
 
 }
