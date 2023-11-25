@@ -28,8 +28,7 @@ public class Graphs {
         graph[2].add(new Edge(2, 4, 1));
         // 3 vertices
         graph[3].add(new Edge(3, 1, 1));
-        graph[3].add(new Edge(4, 2, 1));
-        graph[3].add(new Edge(3, 5, 1));
+        graph[3].add(new Edge(3, 4, 1));
         // 4 vertices
         graph[4].add(new Edge(4, 2, 1));
         graph[4].add(new Edge(4, 3, 1));
@@ -60,6 +59,19 @@ public class Graphs {
         }
     }
 
+    public static void dfs(ArrayList<Edge>[] graph, int curr, boolean visited[]) {
+        // visit current
+        System.out.print(curr + "  ");
+        visited[curr] = true;
+        for (int i = 0; i < graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+            if (!visited[e.dest]) {
+                dfs(graph, e.dest, visited);
+            }
+        }
+
+    }
+
     public static void main(String[] args) {
 
         int vertices = 7;
@@ -73,7 +85,8 @@ public class Graphs {
         // Weight-> " + e.weight);
         // System.out.println();
         // }
-        bfs(graph);
+        // bfs(graph);
+        dfs(graph, 0, new boolean[vertices]);
 
     }
 
