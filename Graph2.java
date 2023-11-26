@@ -124,6 +124,31 @@ public class Graph2 {
         return false;
     }
 
+    public static void topologicalSort(ArrayList<Edge>[] graph) {
+        boolean visited[] = new boolean[graph.length];
+        Stack<Integer> s = new Stack<>();
+        for (int i = 0; i < graph.length; i++) {
+            if (!visited[i]) {
+
+                topologicalSortUtil(graph, i, visited, s);
+            }
+        }
+        while (!s.isEmpty()) {
+            System.out.println(s.pop() + "  ");
+        }
+    }
+
+    public static void topologicalSortUtil(ArrayList<Edge>[] graph, int curr, boolean visited[], Stack s) {
+        visited[curr] = true;
+        for (int i = 0; i < graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+            if (!visited[e.dest]) {
+                topologicalSortUtil(graph, e.dest, visited, s);
+            }
+        }
+        s.push(curr);
+    }
+
     public static void main(String[] args) {
         int v = 4;
         ArrayList<Edge> graph[] = new ArrayList[v];
@@ -131,6 +156,6 @@ public class Graph2 {
         // System.out.println(detectCycle(graph));
 
         // System.out.println(isBipartite(graph));
-        System.out.println(isCycle(graph));
+        topologicalSort(graph);
     }
 }
