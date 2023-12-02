@@ -38,6 +38,7 @@ public class TarjanAlgoGraph {
         graph[5].add(new Edge(5, 4));
     }
 
+    // bridge in graph
     public static void dfs(ArrayList<Edge> graph[], int curr, int par, int dt[], int low[], boolean vis[], int time) {
         vis[curr] = true;
         dt[curr] = low[curr] = ++time;
@@ -71,12 +72,61 @@ public class TarjanAlgoGraph {
             }
         }
     }
+    // bridge in graph
+
+    // Articulation Point
+    public static void dfsAP(ArrayList<Edge> graph[], int curr, int par, int dt[], int low[], int time, boolean vis[],
+            boolean ap[]) {
+        vis[curr] = true;
+        dt[curr] = low[curr] = ++time;
+        int children = 0;
+        for (int i = 0; i < graph[curr].size(); i++) {
+            Edge e = graph[curr].get(i);
+            int neigh = e.dest;
+            if (par == neigh) {
+                continue;
+            } else if (vis[neigh]) {
+                low[curr] = Math.min(low[curr], dt[neigh]);
+            } else {
+                dfsAP(graph, neigh, curr, dt, low, time, vis, ap);
+                low[curr] = Math.min(low[curr], low[neigh]);
+
+                if (par != -1 && dt[curr] <= low[neigh]) {
+                    ap[curr] = true;
+                }
+                children++;
+            }
+        }
+        if (par != -1 && children > 1) {
+            ap[curr] = true;
+        }
+        for (int i = 0; i < ap.length; i++) {
+            if (ap[i]) {
+                System.out.println(" Ap : " + i);
+            }
+        }
+    }
+
+    public static void articulation(ArrayList<Edge> graph[], int V) {
+        int dt[] = new int[V];
+        int low[] = new int[V];
+        int time = 0;
+        boolean vis[] = new boolean[V];
+        boolean ap[] = new boolean[V];
+
+        for (int i = 0; i < V; i++) {
+            if (!vis[i]) {
+                dfsAP(graph, i, -1, dt, low, time, vis, ap);
+            }
+        }
+    }
+    // Articulation Point
 
     public static void main(String[] args) {
         int V = 6;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
-        bridge(graph, V);
-
+        // bridge(graph, V);
+        articulation(graph, V);
     }
 }
