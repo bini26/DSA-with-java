@@ -38,6 +38,53 @@ public class KnapsackDP {
 
     }
 
+    public static int knapsackTabulation(int val[], int wt[], int W) {
+        int n = val.length;
+        int dp[][] = new int[n + 1][W + 1];
+        for (int i = 0; i < dp.length; i++) {
+            dp[i][0] = 0;
+        }
+        for (int j = 0; j < dp[0].length; j++) {
+            dp[0][j] = 0;
+        }
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < W + 1; j++) {
+
+                int v = val[i - 1];
+                int w = wt[i - 1];
+                if (w <= j) {// valid
+                    int incProfit = v + dp[i - 1][j - w];// include profit
+                    int excProfit = dp[i - 1][j];
+                    dp[i][j] = Math.max(incProfit, excProfit);
+                } else {// invalid
+                    int excProfit = dp[i - 1][j];
+                    dp[i][j] = excProfit;
+                }
+            }
+        }
+        return dp[n][W];
+    }
+
+    public static boolean targetSumTabulation(int num[], int target) {
+        int n = num.length;
+        boolean dp[][] = new boolean[n + 1][target + 1];
+        for (int i = 0; i < n + 1; i++) {// i = items and j=targetsum
+            dp[i][0] = true;
+        }
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < target + 1; j++) {
+                int v = num[i - 1];
+                // include
+                if (v <= j && dp[i - 1][j - v] == true) {
+                    dp[i][j] = true;
+                } else if (dp[i - 1][j] == true) {
+                    dp[i][j] = true;
+                }
+            }
+        }
+        return dp[n][target];
+    }
+
     public static void main(String[] args) {
         int val[] = { 15, 14, 10, 45, 30 };
         int wt[] = { 2, 5, 1, 3, 4 };
@@ -49,6 +96,10 @@ public class KnapsackDP {
             }
         }
         // System.out.println(knapsackRecursion(wt, val, W, val.length));
-        System.out.println(knapsackMemoization(wt, val, W, val.length, dp));
+        // System.out.println(knapsackMemoization(wt, val, W, val.length, dp));
+        // System.out.println(knapsackTabulation(val, wt, W));
+        int number[] = { 4, 2, 7, 1, 3 };
+        int targetSum = 10;
+        System.out.println(targetSumTabulation(number, targetSum));
     }
 }
