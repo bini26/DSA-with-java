@@ -106,6 +106,33 @@ public class KnapsackDP {
         return dp[n][W];
     }
 
+    // Minimum Partitioning
+    public static int minimumPartitioning(int arr[]) {
+        int n = arr.length;
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += arr[i];
+        }
+        int w = sum / 2;
+        int dp[][] = new int[n + 1][w + 1];
+
+        // bottom up
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < w + 1; j++) {
+                if (arr[i - 1] <= j) {
+                    dp[i][j] = Math.max(arr[i - 1] + dp[i - 1][j - arr[i - 1]], dp[i - 1][j]);
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+
+        int sum1 = dp[n][w];
+        int sum2 = sum - sum1;
+        return Math.abs(sum1 - sum2);
+    }
+
+    // Minimum Partitioning
     public static void main(String[] args) {
         int val[] = { 15, 14, 10, 45, 30 };
         int wt[] = { 2, 5, 1, 3, 4 };
@@ -122,6 +149,8 @@ public class KnapsackDP {
         int number[] = { 4, 2, 7, 1, 3 };
         int targetSum = 10;
         // System.out.println(targetSumTabulation(number, targetSum));
-        System.out.println(UnboundedKnapsack(val, wt, W));
+        // System.out.println(UnboundedKnapsack(val, wt, W));
+        int arr[] = { 1, 11, 6, 5 };
+        System.out.println(minimumPartitioning(arr));
     }
 }
